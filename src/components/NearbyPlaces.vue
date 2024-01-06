@@ -2,7 +2,7 @@
 <template>
   <div>
     <h1>Nearby Places</h1>
-    <form  class="form-container">
+    <form @submit.prevent="getNearbyPlaces" class="form-container">
       <div class="form-group">
         <label for="longitude" class="label-group">Longitude:</label>
         <input type="text" class="input-group" v-model="longitude" required />
@@ -35,18 +35,32 @@ export default {
     };
   },
   methods: {
+    async getNearbyPlaces() {
+      try {
+        const response = await this.$axios.get('http://localhost:8070/nearby-places', {
+          params: {
+            longitude: this.longitude,
+            latitude: this.latitude,
+            radius: this.radius,
+          },
+        });
 
+        this.places = response.data;
+      } catch (error) {
+        console.error('Error fetching nearby places:', error);
+      }
+    },
   },
 };
 </script>
   
 <style scoped>
-
 .form-container {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 .button {
   background-color: #4caf50;
   color: white;
