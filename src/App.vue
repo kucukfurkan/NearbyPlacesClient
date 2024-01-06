@@ -1,17 +1,22 @@
-<script setup>
+<template>
+   <div id="app">
+    
+    <NearbyPlaces />
+    
+  </div>
+</template>
 
+<script >
+import NearbyPlaces from "./components/NearbyPlaces.vue";
+
+export default {
+  name: 'App',
+  components: {
+    NearbyPlaces,
+  },
+};
 
 </script>
-
-<template>
-  <header>
-
-  </header>
-
-  <main>
-    
-  </main>
-</template>
 
 <style scoped>
 
