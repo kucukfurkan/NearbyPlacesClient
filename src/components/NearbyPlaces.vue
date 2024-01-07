@@ -21,10 +21,24 @@
       <button type="submit" class="button">Get Nearby Places</button>
     </form>
 
+    <div v-if="places.length > 0">
+      <h2>Places:</h2>
+      <ul>
+        <li v-for="(place, index) in places" :key="index">
+          <strong>{{ place.placeName }}</strong>
+          <p>{{ place.address || 'Address not available' }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div v-if="error">
+      <p>Error fetching nearby places: {{ error }}</p>
+    </div>
   </div>
 </template>
   
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -32,12 +46,16 @@ export default {
       latitude: "",
       radius: "",
       places: [],
+      error: null,
     };
   },
   methods: {
     async getNearbyPlaces() {
       try {
-        const response = await this.$axios.get('http://localhost:8070/api/places', {
+        const axiosInstance = axios.create({
+          baseURL: 'http://localhost:8070/api', // Adjust the base URL as needed
+        });
+        const response = await axiosInstance.get('http://localhost:8070/api/places/nearby', {
           params: {
             longitude: this.longitude,
             latitude: this.latitude,
@@ -46,8 +64,10 @@ export default {
         });
 
         this.places = response.data;
+        this.error = null;
       } catch (error) {
         console.error('Error fetching nearby places:', error);
+        this.error = 'An error occurred while fetching nearby places.';
       }
     },
   },
