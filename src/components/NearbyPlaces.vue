@@ -37,7 +37,7 @@ export default {
   methods: {
     async getNearbyPlaces() {
       try {
-        const response = await this.$axios.get('http://localhost:8070/nearby-places', {
+        const response = await this.$axios.get('http://localhost:8070/api/places', {
           params: {
             longitude: this.longitude,
             latitude: this.latitude,
