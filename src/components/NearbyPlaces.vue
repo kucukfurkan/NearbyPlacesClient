@@ -1,44 +1,42 @@
 <!-- src/components/NearbyPlaces.vue -->
 <template>
-  <div class="nearby-places">
-    <h1>Nearby Places</h1>
-    <form @submit.prevent="getNearbyPlaces" class="form-container">
-      <div class="form-group">
-        <label for="longitude" class="label-group">Longitude:</label>
-        <input type="text" class="input-group" v-model="longitude" required />
-      </div>
+  <div class="outerdiv">
+    <div>
+      <h1>Nearby Places</h1>
+      <form @submit.prevent="getNearbyPlaces" class="form-container">
+        <div class="form-group">
+          <label for="longitude" class="label-group">Longitude:</label>
+          <input type="text" class="input-group" v-model="longitude" required />
+        </div>
 
-      <div class="form-group">
-        <label for="latitude" class="label-group">Latitude:</label>
-        <input type="text" class="input-group" v-model="latitude" required />
-      </div>
+        <div class="form-group">
+          <label for="latitude" class="label-group">Latitude:</label>
+          <input type="text" class="input-group" v-model="latitude" required />
+        </div>
 
-      <div class="form-group">
-        <label for="radius" class="label-group">Radius:</label>
-        <input type="text" class="input-group" v-model="radius" required />
-      </div>
-
-      <button type="submit" class="button">Nearby Places</button>
-    </form>
-<<<<<<< HEAD
-
-    <div v-if="places.length > 0">
-      <h2>Places:</h2>
-      <ul>
-        <li v-for="(place, index) in places" :key="index">
-          <strong>{{ place.placeName }}</strong>
-          <p>{{ place.address || 'Address not available' }}</p>
-        </li>
-      </ul>
+        <div class="form-group">
+          <label for="radius" class="label-group">Radius:</label>
+          <input type="text" class="input-group" v-model="radius" required />
+        </div>
+        <button type="submit" class="button">Get Nearby Places</button>
+      </form>
     </div>
+    <div class="result-container">
+      <div v-if="places.length > 0">
+        <h2>Places:</h2>
+        <ul>
+          <li v-for="(place, index) in places" :key="index">
+            <strong>{{ place.placeName }}</strong>
+            <p>{{ place.address || 'Address not available' }}</p>
+          </li>
+        </ul>
 
-    <div v-if="error">
-      <p>Error fetching nearby places: {{ error }}</p>
+        <div v-if="error">
+          <p>Error fetching nearby places: {{ error }}</p>
+        </div>
+      </div>
     </div>
-=======
->>>>>>> e46f0834f7d8384e22e953cd842123adcafbc7eb
   </div>
-  <div></div>
 </template>
   
 <script>
@@ -68,6 +66,7 @@ export default {
         });
 
         this.places = response.data;
+        console.log(this.places)
         this.error = null;
       } catch (error) {
         console.error('Error fetching nearby places:', error);
@@ -79,64 +78,65 @@ export default {
 </script>
   
 <style scoped>
+.outerdiv {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-container {
-    min-height: 100vh; 
-    display: flex;
-    flex-direction: row;
-    max-width: 600px; 
-    margin: 0 auto; 
-    padding: 20px;
-    align-items: flex-start;
-  }
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
 
-  .nearby-places{
-    padding-top: 0px;
-  }
+.result-container {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+}
 
+.form-group {
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.label-group {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-right: 24px;
+}
+
+.button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%; /* Full width button */
+  margin-top: 20px;
+}
+
+@media (min-width: 600px) {
   .form-group {
-    margin-bottom: 15px;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
   }
 
   .label-group {
-    display: block;
-    margin-bottom: 5px;
+    margin-right: 10px;
   }
 
   .input-group {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    margin-right:24px;
+    width: 150px;
   }
-
-  .button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    width:70px;
-    height: 50px;
-    margin-top: 20px;
-  }
-
-  @media (min-width: 600px) {
-    .form-container {
-      max-width: 600px; 
-    }
-
-    .form-group {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .label-group {
-      margin-right: 10px;
-    }
-
-    .input-group {
-      width: 150px; 
-    }
-  }
+}
 </style>
